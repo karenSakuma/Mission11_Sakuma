@@ -1,0 +1,6 @@
+@Mission11_KarenSakuma.API_HostAddress = http://localhost:5056
+
+GET {{Mission11_KarenSakuma.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
