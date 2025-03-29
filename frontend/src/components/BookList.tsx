@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Book } from './types/Book';
+import { Book } from '../types/Book';
+import { useNavigate } from 'react-router-dom';
 
-function BookList() {
+function BookList({ selectedCategories }: { selectedCategories: string[] }) {
   const [books, setBooks] = useState<Book[]>([]);
   const [pageSize, setPageSize] = useState<number>(5);
   const [pageNum, setPageNum] = useState<number>(1);
@@ -9,9 +10,13 @@ function BookList() {
   const [totalPages, setTotalPages] = useState<number>(0);
   const [sortBy, setSortBy] = useState<string | null>(null);
   const [descending, setDescending] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchBooks = async () => {
+      const categoryParams = selectedCategories
+        .map((cat) => `bookTypes=${encodeURIComponent(cat)}`)
+        .join('&');
       const queryParams = new URLSearchParams();
       queryParams.append('pageSize', pageSize.toString());
       queryParams.append('pageNum', pageNum.toString());
@@ -21,7 +26,7 @@ function BookList() {
       }
 
       const response = await fetch(
-        `http://localhost:5056/Book/GetBooks?${queryParams.toString()}`
+        `http://localhost:5056/Book/GetBooks?${queryParams.toString()}${selectedCategories.length ? `&${categoryParams}` : ''}`
       );
       const data = await response.json();
       setBooks(data.books);
@@ -30,12 +35,10 @@ function BookList() {
     };
 
     fetchBooks();
-  }, [pageSize, pageNum, totalItems, sortBy, descending]);
+  }, [pageSize, pageNum, totalItems, sortBy, descending, selectedCategories]);
 
   return (
     <>
-      <h1>Books</h1>
-
       {/*when clicked the user can sort alphabetically*/}
       <button
         onClick={() => {
@@ -47,34 +50,49 @@ function BookList() {
       </button>
 
       <br />
-      {/*use boostrap to make each card look nice */}
+      {/*use boostrap to add emojis to each detail on the book card*/}
       {books.map((b) => (
-        <div id="bookCard" className="card">
-          <h3 className="card-title">{b.title}</h3>
+        <div id="bookCard" className="card p-3 shadow-sm">
+          <h3 className="card-title">
+            <i className="bi bi-book"></i> {b.title}
+          </h3>
           <div className="card-body">
             <ul className="list-unstyled">
               <li>
-                <strong>Author:</strong> {b.author}
+                <i className="bi bi-person-fill"></i> <strong>Author:</strong>{' '}
+                {b.author}
               </li>
               <li>
-                <strong>Publisher:</strong> {b.publisher}
+                <i className="bi bi-building"></i> <strong>Publisher:</strong>{' '}
+                {b.publisher}
               </li>
               <li>
-                <strong>ISBN:</strong> {b.isbn}
+                <i className="bi bi-upc-scan"></i> <strong>ISBN:</strong>{' '}
+                {b.isbn}
               </li>
               <li>
+                <i className="bi bi-journal-code"></i>{' '}
                 <strong>Classification:</strong> {b.classification}
               </li>
               <li>
-                <strong>Category:</strong> {b.category}
+                <i className="bi bi-folder"></i> <strong>Category:</strong>{' '}
+                {b.category}
               </li>
               <li>
+                <i className="bi bi-file-earmark-text"></i>{' '}
                 <strong>Page Count:</strong> {b.pageCount}
               </li>
               <li>
-                <strong>Price:</strong> {b.price}
+                <i className="bi bi-tag-fill text-success"></i>{' '}
+                <strong>Price:</strong> ${b.price}
               </li>
             </ul>
+            <button
+              className="btn btn-success"
+              onClick={() => navigate(`/buy/${b.title}/${b.bookID}`)}
+            >
+              <i className="bi bi-cart"></i> Buy
+            </button>
           </div>
         </div>
       ))}

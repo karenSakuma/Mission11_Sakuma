@@ -11,6 +11,14 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --bs-body-bg: #ffffff !important;
+  --bs-body-color: #000000 !important;
+  --bs-card-bg: #ffffff !important;
+  --bs-card-color: #000000 !important;
+  --bs-btn-bg: #ffffff !important;
+  --bs-btn-color: #000000 !important;
+  --bs-btn-border-color: #cccccc !important;
 }
 
 a {
@@ -28,6 +36,8 @@ body {
   place-items: center;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #ffffff !important;
+  color: #000000 !important;
 }
 
 h1 {
@@ -42,9 +52,10 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: white;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: #000000;
 }
 button:hover {
   border-color: #646cff;
