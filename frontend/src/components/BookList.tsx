@@ -89,7 +89,11 @@ function BookList({ selectedCategories }: { selectedCategories: string[] }) {
             </ul>
             <button
               className="btn btn-success"
-              onClick={() => navigate(`/buy/${b.title}/${b.bookID}`)}
+              onClick={() =>
+                navigate(`/buy/${b.title}/${b.bookID}`, {
+                  state: { title: b.title, price: b.price, bookId: b.bookID },
+                })
+              }
             >
               <i className="bi bi-cart"></i> Buy
             </button>

@@ -8,6 +8,7 @@ const CartSummary = () => {
   const navigate = useNavigate();
   const { cart } = useCart();
   const totalAmount = cart.reduce((sum, item) => sum + item.price, 0);
+  const totalQuantity = cart.reduce((sum, item) => sum + item.quantity, 0);
   return (
     <div
       style={{
@@ -28,6 +29,7 @@ const CartSummary = () => {
       {' '}
       {/*price shown with two decimal places */}
       🛒 <strong>${totalAmount.toFixed(2)}</strong>
+      <strong> ({totalQuantity})</strong>
     </div>
   );
 };

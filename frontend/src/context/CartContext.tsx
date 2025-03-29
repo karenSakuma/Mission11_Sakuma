@@ -19,10 +19,20 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
   const addToCart = (item: CartItem) => {
     setCart((prevCart) => {
       const existingItem = prevCart.find((c) => c.bookId === item.bookId);
-      const updatedCart = prevCart.map((c) =>
-        c.bookId === item.bookId ? { ...c, price: c.price + item.price } : c
-      );
-      return existingItem ? updatedCart : [...prevCart, item];
+
+      if (existingItem) {
+        return prevCart.map((c) =>
+          c.bookId === item.bookId
+            ? {
+                ...c,
+                quantity: c.quantity + 1, // Increment quantity
+                price: c.price + item.price, //Update total price
+              }
+            : c
+        );
+      } else {
+        return [...prevCart, { ...item, quantity: 1 }];
+      }
     });
   };
 

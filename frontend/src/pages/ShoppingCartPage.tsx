@@ -1,30 +1,36 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import WelcomeBand from '../components/WelcomeBand';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams, useLocation } from 'react-router-dom';
 import { useCart } from '../context/CartContext';
 import { CartItem } from '../types/CartItem';
-import { useState, useEffect } from 'react';
+import WelcomeBand from '../components/WelcomeBand';
 import ToastNotification from '../components/ToastNotification';
 
+// Inside ShoppingCartPage component
 function ShoppingCartPage() {
   const navigate = useNavigate();
   const { title, bookId } = useParams();
+  const location = useLocation();
+
   const { addToCart } = useCart();
   const [price, setPrice] = useState<number>(0);
   const [showToast, setShowToast] = useState(false);
   const [quantity, setQuantity] = useState<number>(1);
 
-  // Assuming the price will be fetched from an API or passed down
+  // Use state passed from the BookList
+  const bookData = location.state;
+
   useEffect(() => {
-    // Just an example, replace this with your actual price fetching logic
-    setPrice(20); // Replace this with actual logic to fetch the price
-  }, []);
+    if (bookData) {
+      setPrice(bookData.price); // Set price from passed state
+    }
+  }, [bookData]);
 
   const handleAddToCart = () => {
     const newItem: CartItem = {
-      bookId: Number(bookId),
-      title: title || 'No book found',
-      price: Number(price),
-      quantity: Number(quantity),
+      bookId: bookData?.bookId ?? Number(bookId),
+      title: bookData?.title || title || 'No book found',
+      price: bookData?.price ?? 0,
+      quantity: quantity,
     };
     addToCart(newItem);
     setShowToast(true);
@@ -36,11 +42,11 @@ function ShoppingCartPage() {
   return (
     <>
       <WelcomeBand />
-      <h2>Purchase {title}</h2>
+      <h2>Purchase {bookData?.title || title}</h2>
 
       <div>
         {/* Price display */}
-        <p>Price: ${price}</p>
+        <p>Price: ${bookData?.price || price}</p>
 
         {/* Quantity input */}
         <div>
@@ -51,9 +57,10 @@ function ShoppingCartPage() {
             min="1"
             value={quantity}
             onChange={(e) => setQuantity(Number(e.target.value))}
+            readOnly
           />
         </div>
-
+        <br />
         {/* Add to cart button */}
         <button className="btn btn-primary" onClick={handleAddToCart}>
           <i className="bi bi-cart"></i> Add to Cart
