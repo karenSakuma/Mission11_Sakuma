@@ -13,7 +13,14 @@ builder.Services.AddDbContext<BookstoreDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("BookstoreConnection")));
 
 // CORS Configuration
-builder.Services.AddCors();
+builder.Services.AddCors(options => 
+    options.AddPolicy("AllowReactAppBlah",
+        policy => {
+            policy.AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader();
+        }));
+
 
 var app = builder.Build();
 
@@ -25,9 +32,9 @@ if (app.Environment.IsDevelopment())
 }
 
 // Apply CORS policy
-app.UseCors(x => x.WithOrigins("http://localhost:5174"));
+app.UseCors("AllowReactAppBlah");
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseAuthorization();
-app.MapControllers();
+app.MapControllers(); 
 app.Run();

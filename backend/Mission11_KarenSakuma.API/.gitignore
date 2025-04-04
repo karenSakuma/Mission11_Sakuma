@@ -1,0 +1,14 @@
+bin/
+obj/
+
+.vs/
+*.suo
+*.user
+
+.idea/
+*.DotSettings.user
+
+*.log
+*.tlog
+
+

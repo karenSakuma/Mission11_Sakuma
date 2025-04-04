@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Mission11_KarenSakuma.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5c796f0ebacabb08491e9f3577575420e1a38ed1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+12c150952dbdde8236a4d5a88316ac20564ad9e5")]
 [assembly: System.Reflection.AssemblyProductAttribute("Mission11_KarenSakuma.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Mission11_KarenSakuma.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
