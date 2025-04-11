@@ -25,7 +25,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Apply CORS policy
-app.UseCors(x => x.WithOrigins("http://localhost:5174"));
+app.UseCors(x => x.WithOrigins("http://localhost:5173"));
 
 app.UseHttpsRedirection();
 app.UseAuthorization();
